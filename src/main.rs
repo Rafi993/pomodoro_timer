@@ -94,7 +94,7 @@ impl Application for Pomodoro {
             Message::StartBreak => {
                 self.duration = 300;
                 self.is_running = true;
-                self.is_break = false;
+                self.is_break = true;
             }
         }
 
