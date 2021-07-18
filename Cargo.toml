@@ -1,0 +1,11 @@
+[package]
+name = "pomorodo_timer"
+version = "0.0.1"
+authors = ["Rafi993"]
+edition = "2018"
+description = "Simple pomorodo timer using Rust"
+
+[dependencies.iced]
+git = "https://github.com/hecrj/iced"
+branch = "master"
+features = ["smol"]
