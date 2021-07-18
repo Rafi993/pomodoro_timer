@@ -16,14 +16,14 @@ pub fn main() -> iced::Result {
         ..window::Settings::default()
     };
 
-    Pomorodo::run(Settings {
+    Pomodoro::run(Settings {
         window: window_settings,
         ..Settings::default()
     })
 }
 
 #[derive(Default)]
-struct Pomorodo {
+struct Pomodoro {
     duration: i32,
     is_running: bool,
     is_break: bool,
@@ -39,14 +39,14 @@ enum Message {
     Tick,
 }
 
-impl Application for Pomorodo {
+impl Application for Pomodoro {
     type Executor = executor::Default;
     type Message = Message;
     type Flags = ();
 
     fn new(_flags: ()) -> (Self, Command<Message>) {
         (
-            Pomorodo {
+            Pomodoro {
                 duration: 1500,
                 is_break: false,
                 ..Self::default()
@@ -56,7 +56,7 @@ impl Application for Pomorodo {
     }
 
     fn title(&self) -> String {
-        String::from("Pomorodo Timer")
+        String::from("Pomodoro Timer")
     }
 
     fn subscription(&self) -> Subscription<Message> {
