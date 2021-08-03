@@ -9,3 +9,7 @@ description = "Simple pomorodo timer using Rust"
 git = "https://github.com/hecrj/iced"
 branch = "master"
 features = ["smol"]
+
+[dependencies]
+reqwest = { version = "0.11.4", features = ["blocking", "json"] }
+serde_json = "1.0.66"

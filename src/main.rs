@@ -2,8 +2,39 @@ use iced::{
     button, executor, time, window, Application, Button, Clipboard, Column, Command, Container,
     Element, Length, Row, Settings, Subscription, Text,
 };
-
+use reqwest::header::AUTHORIZATION;
+use serde_json;
 mod style;
+
+const TOKEN: &str = "Bearer SLACK_TOKEN";
+
+fn busy() {
+    let status = reqwest::blocking::Client::new()
+        .post("https://slack.com/api/users.profile.set")
+        .json(&serde_json::json!({
+            "profile": {
+                "status_text": "Deep work",
+                "status_emoji": "⛔",
+                "status_expiration": 0,
+              },
+        }))
+        .header(AUTHORIZATION, TOKEN)
+        .send();
+}
+
+fn free() {
+    let status = reqwest::blocking::Client::new()
+        .post("https://slack.com/api/users.profile.set")
+        .json(&serde_json::json!({
+            "profile": {
+                "status_text": "",
+                "status_emoji": "",
+                "status_expiration": 0,
+              },
+        }))
+        .header(AUTHORIZATION, TOKEN)
+        .send();
+}
 
 pub fn main() -> iced::Result {
     let window_settings = window::Settings {
@@ -66,6 +97,7 @@ impl Application for Pomodoro {
     fn update(&mut self, message: Message, _clipboard: &mut Clipboard) -> Command<Message> {
         match message {
             Message::StartTimer => {
+                busy();
                 self.duration = 1500;
                 self.is_running = true;
                 self.is_break = false;
@@ -79,6 +111,7 @@ impl Application for Pomodoro {
                         self.is_break = false;
                     } else if self.is_break && self.duration == 0 {
                         // Start timer
+                        busy();
                         self.duration = 1500;
                         self.is_running = true;
                         self.is_break = false;
